@@ -1,4 +1,9 @@
-#' #' @rdname pwr_n
+#' @name cjpwr
+
+NULL
+
+
+#' @rdname cjpwr
 #' @title Simple Sample Size Diagnostic for Conjoint Designs
 #' @description Johnson's rule-of-thumb calculation for determining necessary sample size in conjoint designs.
 #' @param t The number of choice-tasks per respondent.

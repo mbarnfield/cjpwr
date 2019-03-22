@@ -1,3 +1,8 @@
+#' @name cjpwr
+
+NULL
+
+
 #' @rdname cjpwr
 #' @title Simple Power Analysis for Conjoint Designs
 #' @description Johnson's rule-of-thumb calculation for determining power of conjoint designs.
