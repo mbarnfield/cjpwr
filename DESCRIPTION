@@ -1,0 +1,10 @@
+Package: cjpwr
+Title: Simple Conjoint Design Power Analysis (Orme, 2010)
+Version: 0.0.0.9000
+Authors@R: person("Matthew", "Barnfield", email = "m.barnfield@qmul.ac.uk", role = c("aut", "cre"))
+Description: Following Johnson's rule-of-thumb conjoint analysis sample size recommendations, the `cjpwr()` function takes four inputs - sample size, number of choice tasks, number of alternatives and number of analysis cells. From these it calculates approximately each main-effect level of interest is represented across the design, and whether this is above or equal to the minimum threshold (500) and ideal minimum threshold (1000). Based on Orme (2010, pp.64-65).
+Depends: R (>= 3.5.2)
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1.9000
