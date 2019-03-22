@@ -4,11 +4,6 @@ NULL
 
 
 #' @rdname cjpwr
-#' @title Simple Sample Size Diagnostic for Conjoint Designs
-#' @description Johnson's rule-of-thumb calculation for determining necessary sample size in conjoint designs.
-#' @param t The number of choice-tasks per respondent.
-#' @param a The number of alternatives per choice task (2 in most designs).
-#' @param c The number of analysis cells - equal to largest number of possible levels for any one feature, or the largest product of levels of any two attributes for power of two-way interaction estimates (Johnson and Orme, 2003).
 #' @details \code{pwr_n} calculates the sample size needed for a conjoint design to be sufficiently powered, given the number of choice tasks, profiles and maximum number of levels per feature.
 #' @export
 #' @examples

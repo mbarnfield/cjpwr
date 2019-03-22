@@ -21,7 +21,7 @@ NULL
 #' pwr(5, 1000, 2, 18)
 #' pwr(5, c = 18, 1000, 2)
 #' pwr(c = 18, n = 1000, a = 2, t = 5)
-#' @seealso \code{\link{pwr_n}}
+
 
 pwr <-
   function(n, t, a, c) {

@@ -18,17 +18,9 @@ pwr_n(t, a, c)
 \item{a}{The number of alternatives per choice task (2 in most designs).}
 
 \item{c}{The number of analysis cells - equal to largest number of possible levels for any one feature, or the largest product of levels of any two attributes for power of two-way interaction estimates (Johnson and Orme, 2003).}
-
-\item{t}{The number of choice-tasks per respondent.}
-
-\item{a}{The number of alternatives per choice task (2 in most designs).}
-
-\item{c}{The number of analysis cells - equal to largest number of possible levels for any one feature, or the largest product of levels of any two attributes for power of two-way interaction estimates (Johnson and Orme, 2003).}
 }
 \description{
 Johnson's rule-of-thumb calculation for determining power of conjoint designs.
-
-Johnson's rule-of-thumb calculation for determining necessary sample size in conjoint designs.
 }
 \details{
 \code{pwr} divides the product of n, t, and a by c, to give Johnson's rule-of-thumb estimation of conjoint design power. It returns the result of this calculation and statements of whether this exceeds the minimal minimum threshold (500) and ideal minimum threshold (1000).
@@ -52,7 +44,4 @@ pwr_n(t = 5, a = 2, c = 18)
 pwr_n(2, 5, 18)
 pwr_n(5, c = 18, 2)
 pwr_n(c = 18, a = 2, t = 5)
-}
-\seealso{
-\code{\link{pwr_n}}
 }
