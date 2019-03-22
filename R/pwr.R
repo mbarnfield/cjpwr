@@ -5,10 +5,10 @@
 #' @param t The number of choice-tasks per respondent.
 #' @param a The number of alternatives per choice task (2 in most designs).
 #' @param c The number of analysis cells - equal to largest number of possible levels for any one feature, or the largest product of levels of any two attributes for power of two-way interaction estimates (Johnson and Orme, 2003).
-#' @details \code{cjpwr} divides the product of n, t, and a by c, to give Johnson's rule-of-thumb estimation of conjoint design power. It returns the result of this calculation and statements of whether this exceeds the minimal minimum threshold (500) and ideal minimum threshold (1000).
+#' @details \code{pwr} divides the product of n, t, and a by c, to give Johnson's rule-of-thumb estimation of conjoint design power. It returns the result of this calculation and statements of whether this exceeds the minimal minimum threshold (500) and ideal minimum threshold (1000).
 #' @export
 #' @examples
-#' #conjoint design with 1000 respondents, five choice tasks per respondent,
+#' #conjoint design with five choice tasks per respondent, two alternative profiles per task, and maximum six levels per feature
 #' pwr(n = 1000, t = 5, a = 2, c = 6)
 #' #same design but considering interactions, where largest product of levels of any two attributes is 18 (6*3)
 #' pwr(n = 1000, t = 5, a = 2, c = 18)
