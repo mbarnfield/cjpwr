@@ -27,14 +27,14 @@ pwr <-
   function(n, t, a, c) {
     nta <- n*t*a
     design_rep <- nta/c
-    out1 <- paste("nta/c =", design_rep)
+    out1 <- paste("nta/c =", design_rep, "\n")
     out2 <- ifelse(design_rep >= 500,
-                   "sufficient power for minimum threshold",
-                   "insufficient power for minimum threshold")
+                   "sufficient power for minimum threshold\n",
+                   "insufficient power for minimum threshold\n")
     out3 <- ifelse(design_rep >= 1000,
-                   "sufficient power for ideal threshold",
-                   "insufficient power for ideal threshold")
-    print(out1)
-    print(out2)
-    print(out3)
+                   "sufficient power for ideal threshold\n",
+                   "insufficient power for ideal threshold\n")
+    cat(out1)
+    cat(out2)
+    cat(out3)
   }

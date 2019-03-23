@@ -25,9 +25,9 @@ pwr_n <-
     min_n <- min_c / ta
     max_n <- max_c /ta
     out1 <- paste("sample size needed for minimum threshold >",
-                  min_n)
+                  min_n, "\n")
     out2 <- paste("much better sample size would be >",
-                  max_n)
-    print(out1)
-    print(out2)
+                  max_n, "\n")
+    cat(out1)
+    cat(out2)
   }
