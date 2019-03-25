@@ -2,10 +2,9 @@
 % Please edit documentation in R/pwr.R
 \name{cjpwr}
 \alias{cjpwr}
-\alias{pwr}
 \title{Simple Power Analysis for Conjoint Designs}
 \usage{
-pwr(n, t, a, c)
+cjpwr(n, t, a = 2, c)
 }
 \arguments{
 \item{n}{The sample size.}
@@ -20,7 +19,7 @@ pwr(n, t, a, c)
 Johnson's rule-of-thumb calculation for determining power of conjoint designs.
 }
 \details{
-\code{pwr} divides the product of n, t, and a by c, to give Johnson's rule-of-thumb estimation of conjoint design power. It returns the result of this calculation and statements of whether this exceeds the minimal minimum threshold (500) and ideal minimum threshold (1000).
+\code{pwr} divides the product of n, t, and a by c, to give Johnson's rule-of-thumb estimation of conjoint design power. It returns a dataframe containing the inputs and result of this calculation, whether (yes/no) this exceeds the minimal minimum threshold (500) and ideal minimum threshold (1000), and and the necessary sample sizes (rounded up) necessary for minimum and ideal power thresholds.
 }
 \examples{
 #conjoint design with five choice tasks per respondent, two alternative profiles per task, and maximum six levels per feature
