@@ -1,7 +1,7 @@
 #' @name cjpwr
 #'
 #' @rdname cjpwr
-#' @title Simple Power Analysis for Conjoint Designs
+#' @title Simple Power Analysis and Sample Size Diagnostic for Conjoint Designs
 #' @description Johnson's rule-of-thumb calculation for determining power of conjoint designs.
 #' @param n The sample size.
 #' @param t The number of choice-tasks per respondent.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/pwr.R
 \name{cjpwr}
 \alias{cjpwr}
-\title{Simple Power Analysis for Conjoint Designs}
+\title{Simple Power Analysis and Sample Size Diagnostic for Conjoint Designs}
 \usage{
 cjpwr(n, t, a = 2, c)
 }
