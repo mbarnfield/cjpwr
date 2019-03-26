@@ -15,7 +15,7 @@ cjpwr_data(data, id, contest_no, profile_no, features)
 
 \item{profile_no}{A variable, within data, containing within-contest/choice-task profile numbers. Must be numeric.}
 
-\item{features}{Numbers of columns/variables containing features.}
+\item{features}{Numbers of columns/variables containing features. If you plan to calculate AMCEs/MMs of interactions between variables, use interaction() to create a new variable for each interacted feature pair, and include these new variables in the features argument. It is likely that it will be one of these these that is eventually passed to `c` (it takes the feature with the largest number of unique levels). This may seem like a lot of work but these new variables are needed anyway if you wish to analyse interactions in e.g. `cregg`.}
 }
 \description{
 Johnson's rule-of-thumb calculation for determining power of conjoint designs.
@@ -43,4 +43,11 @@ taxes$profile_no <- rep(c(1,2))
 taxes$contest_no <- rep(c(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8))
 #run cjpwr_data for power analysis
 cjpwr_data(data = taxes, id = ID, profile_no = profile_no, contest_no = contest_no, features = 2:8)
+#include interaction variable for a pair of features
+library(tidyverse)
+immigration$ints <- interaction(immigration$Gender, immigration$PriorEntry)
+#move `ints` to be among other feature variables for easier specification of features
+immigration <- select(immigration, CaseID, contest_no, ints, everything())
+#run cjpwr_data with extra feature included
+cjpwr_data(immigration, CaseID, profile, contest_no, 3:12)
 }
