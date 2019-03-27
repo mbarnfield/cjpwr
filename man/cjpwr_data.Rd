@@ -4,18 +4,18 @@
 \alias{cjpwr_data}
 \title{Simple Power Analysis and Sample Size Diagnostic for Conjoint Designs}
 \usage{
-cjpwr_data(data, id, contest_no, profile_no, features)
+cjpwr_data(data, formula, id, contest_no, profile_no)
 }
 \arguments{
 \item{data}{A tidy, long-formate conjoint dataframe.}
+
+\item{formula}{A formula like those passed to cj/amce/mm functions in `cregg`. RHS variables are used to determine max feature levels.}
 
 \item{id}{A variable, within data, containing respondent IDs. Must be numeric.}
 
 \item{contest_no}{A variable, within data, containing contest/choice-task numbers. Must be numeric.}
 
 \item{profile_no}{A variable, within data, containing within-contest/choice-task profile numbers. Must be numeric.}
-
-\item{features}{Numbers of columns/variables containing features. If you plan to calculate AMCEs/MMs of interactions between variables, use interaction() to create a new variable for each interacted feature pair, and include these new variables in the features argument. It is likely that it will be one of these these that is eventually passed to `c` (it takes the feature with the largest number of unique levels). This may seem like a lot of work but these new variables are needed anyway if you wish to analyse interactions in e.g. `cregg`.}
 }
 \description{
 Johnson's rule-of-thumb calculation for determining power of conjoint designs.
@@ -29,9 +29,11 @@ library(cregg)
 data(immigration)
 data(taxes)
 #run cjpwr_data seamlessly on immigration dataset
-cjpwr_data(data = immigration, id = CaseID, profile_no = profile, contest_no = contest_no, features = 3:11)
-#or
-cjpwr_data(immigration, CaseID, profile, contest_no, 3:11)
+#pre-specify formula
+f1 <- ChosenImmigrant ~ Gender + Education + LanguageSkills +
+CountryOfOrigin + Job + JobExperience + JobPlans +
+ReasonForApplication + PriorEntry
+cjpwr_data(immigration, f1, CaseID, profile, contest_no)
 ##for taxes dataset, need to create contest_no and profile_no vars
 #work out how many contests/tasks per respondent
 tasks_taxes <- sum(taxes$chose_plan)/length(unique(taxes$ID))
@@ -42,12 +44,15 @@ profiles_tasks <- profiles_taxes/tasks_taxes
 taxes$profile_no <- rep(c(1,2))
 taxes$contest_no <- rep(c(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8))
 #run cjpwr_data for power analysis
-cjpwr_data(data = taxes, id = ID, profile_no = profile_no, contest_no = contest_no, features = 2:8)
+cjpwr_data(taxes, chose_plan ~ taxrate1 + taxrate2 + taxrate3 +
+taxrate4 + taxrate5 + taxrate6 + taxrev, ID, profile_no, contest_no)
 #include interaction variable for a pair of features
 library(tidyverse)
 immigration$ints <- interaction(immigration$Gender, immigration$PriorEntry)
-#move `ints` to be among other feature variables for easier specification of features
-immigration <- select(immigration, CaseID, contest_no, ints, everything())
-#run cjpwr_data with extra feature included
-cjpwr_data(immigration, CaseID, profile, contest_no, 3:12)
+#specify new formula including interaction feature
+f2 <- ChosenImmigrant ~ Gender + Education + LanguageSkills +
+CountryOfOrigin + Job + JobExperience + JobPlans +
+ReasonForApplication + PriorEntry + ints
+#then just run cjpwr_data with the new formula
+cjpwr_data(immigration, f2, CaseID, profile, contest_no)
 }

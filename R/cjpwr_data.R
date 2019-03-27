@@ -2,10 +2,10 @@
 #' @title Simple Power Analysis and Sample Size Diagnostic for Conjoint Designs
 #' @description Johnson's rule-of-thumb calculation for determining power of conjoint designs.
 #' @param data A tidy, long-formate conjoint dataframe.
+#' @param formula A formula like those passed to cj/amce/mm functions in `cregg`. RHS variables are used to determine max feature levels.
 #' @param id A variable, within data, containing respondent IDs. Must be numeric.
 #' @param contest_no A variable, within data, containing contest/choice-task numbers. Must be numeric.
 #' @param profile_no A variable, within data, containing within-contest/choice-task profile numbers. Must be numeric.
-#' @param features Numbers of columns/variables containing features. If you plan to calculate AMCEs/MMs of interactions between variables, use interaction() to create a new variable for each interacted feature pair, and include these new variables in the features argument. It is likely that it will be one of these these that is eventually passed to `c` (it takes the feature with the largest number of unique levels). This may seem like a lot of work but these new variables are needed anyway if you wish to analyse interactions in e.g. `cregg`.
 #' @details \code{cjpwr_data} finds and calculates n, t, a, and c from a tidy conjoint data input (with certain variables specified) and divides the product of n, t, and a by c, to give Johnson's rule-of-thumb estimation of conjoint design power. It returns a dataframe containing the inputs and result of this calculation, whether (yes/no) this exceeds the minimal minimum threshold (500) and ideal minimum threshold (1000), and the sample sizes (rounded up) necessary for minimum and ideal power thresholds. {cjpwr_data} uses features of tidyeval which mean variable names can be specified without quoting ("") and without referring back to the dataframe every time (via data$).
 #' @export
 #' @examples
@@ -14,9 +14,11 @@
 #' data(immigration)
 #' data(taxes)
 #' #run cjpwr_data seamlessly on immigration dataset
-#' cjpwr_data(data = immigration, id = CaseID, profile_no = profile, contest_no = contest_no, features = 3:11)
-#' #or
-#' cjpwr_data(immigration, CaseID, profile, contest_no, 3:11)
+#' #pre-specify formula
+#' f1 <- ChosenImmigrant ~ Gender + Education + LanguageSkills +
+#' CountryOfOrigin + Job + JobExperience + JobPlans +
+#' ReasonForApplication + PriorEntry
+#' cjpwr_data(immigration, f1, CaseID, profile, contest_no)
 #' ##for taxes dataset, need to create contest_no and profile_no vars
 #' #work out how many contests/tasks per respondent
 #' tasks_taxes <- sum(taxes$chose_plan)/length(unique(taxes$ID))
@@ -27,18 +29,21 @@
 #' taxes$profile_no <- rep(c(1,2))
 #' taxes$contest_no <- rep(c(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8))
 #' #run cjpwr_data for power analysis
-#' cjpwr_data(data = taxes, id = ID, profile_no = profile_no, contest_no = contest_no, features = 2:8)
+#' cjpwr_data(taxes, chose_plan ~ taxrate1 + taxrate2 + taxrate3 +
+#' taxrate4 + taxrate5 + taxrate6 + taxrev, ID, profile_no, contest_no)
 #' #include interaction variable for a pair of features
 #' library(tidyverse)
 #' immigration$ints <- interaction(immigration$Gender, immigration$PriorEntry)
-#' #move `ints` to be among other feature variables for easier specification of features
-#' immigration <- select(immigration, CaseID, contest_no, ints, everything())
-#' #run cjpwr_data with extra feature included
-#' cjpwr_data(immigration, CaseID, profile, contest_no, 3:12)
+#' #specify new formula including interaction feature
+#' f2 <- ChosenImmigrant ~ Gender + Education + LanguageSkills +
+#' CountryOfOrigin + Job + JobExperience + JobPlans +
+#' ReasonForApplication + PriorEntry + ints
+#' #then just run cjpwr_data with the new formula
+#' cjpwr_data(immigration, f2, CaseID, profile, contest_no)
 
 
 
-cjpwr_data <- function(data, id, contest_no, profile_no, features) {
+cjpwr_data <- function(data, formula, id, contest_no, profile_no) {
 
   #check tidyverse installed and load if so
   library("tidyverse")
@@ -61,12 +66,14 @@ cjpwr_data <- function(data, id, contest_no, profile_no, features) {
     max()
 
   #calculate c
-  features <- data[, features]
-  lengths <- vector("double", ncol(features))
-  for (i in seq_along(features)) {
-    lengths[[i]] <- length(unique(features[[i]]))
+  features <- all.vars(stats::update(formula, 0 ~ .))
+  features_df <- dplyr::select(data, one_of(features))
+  lengths <- vector("double", ncol(features_df))
+  for (i in seq_along(features_df)) {
+    lengths[[i]] <- length(unique(features_df[[i]]))
   }
   c <- max(lengths)
+
 
   #calculate nta
   nta <- n*t*a
@@ -98,3 +105,8 @@ cjpwr_data <- function(data, id, contest_no, profile_no, features) {
              minimum_n = min_n,
              ideal_n = max_n)
 }
+
+
+
+
+
