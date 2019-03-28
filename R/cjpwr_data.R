@@ -23,7 +23,7 @@
 #' taxrate4 + taxrate5 + taxrate6 + taxrev, ID, profile_no, contest_no)
 #' ## include interaction variable for a pair of features
 #' library(tidyverse)
-#' immigration$ints <- interaction(immigration$Gender, immigration$PriorEntry)
+#' immigration %>% mutate(ints = interaction(Gender, PriorEntry, sep = "_"))
 #' #specify new formula including interaction feature
 #' f2 <- ChosenImmigrant ~ Gender + Education + LanguageSkills +
 #' CountryOfOrigin + Job + JobExperience + JobPlans +
