@@ -4,6 +4,7 @@
 #' @param data A tidy, long-format conjoint dataframe.
 #' @param formula A formula like those passed to cj/amce/mm functions in `cregg`. RHS variables are used to determine max feature levels.
 #' @param id A variable, within data, containing respondent IDs. Must be numeric.
+#' @return A tibble with columns n (respondents), t (tasks), a (alternatives), c (cells, i.e. largest number of levels per feature), nta_c (nta/c), min_met (whether minimum threshold met y/n), ideal_met (whether ideal threshold met y/n), min_n (minimum n value to meet minimum threshold), and ideal_n (minimum n value to meet ideal threshold).
 #' @details \code{cjpwr_data} finds and calculates n, t, a, and c from a tidy conjoint data input (with a formula and id, similar to other tidy conjoint analyses) and divides the product of n, t, and a by c, to give Johnson's rule-of-thumb estimation of conjoint design power. It returns a dataframe containing the inputs and result of this calculation, whether (yes/no) this exceeds the minimal minimum threshold (500) and ideal minimum threshold (1000), and the sample sizes (rounded up) necessary for minimum and ideal power thresholds. {cjpwr_data} uses features of tidyeval which mean variable names can be specified without quoting ("") and without referring back to the dataframe every time (via data$).
 #' @export
 #' @examples
@@ -111,7 +112,7 @@ cjpwr_data <- function(data, formula, id) {
   max_n <- ceiling(max_c / ta)
 
   #generate dataframe of results
-  data.frame(n = n,
+  tibble(n = n,
              t = t,
              a = a,
              c = c,

@@ -13,6 +13,9 @@ cjpwr_data(data, formula, id)
 
 \item{id}{A variable, within data, containing respondent IDs. Must be numeric.}
 }
+\value{
+A tibble with columns n (respondents), t (tasks), a (alternatives), c (cells, i.e. largest number of levels per feature), nta_c (nta/c), min_met (whether minimum threshold met y/n), ideal_met (whether ideal threshold met y/n), min_n (minimum n value to meet minimum threshold), and ideal_n (minimum n value to meet ideal threshold).
+}
 \description{
 Johnson's rule-of-thumb calculation for determining power of conjoint designs.
 }
