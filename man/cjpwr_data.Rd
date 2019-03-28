@@ -7,7 +7,7 @@
 cjpwr_data(data, formula, id)
 }
 \arguments{
-\item{data}{A tidy, long-formate conjoint dataframe.}
+\item{data}{A tidy, long-format conjoint dataframe.}
 
 \item{formula}{A formula like those passed to cj/amce/mm functions in `cregg`. RHS variables are used to determine max feature levels.}
 
@@ -31,7 +31,7 @@ CountryOfOrigin + Job + JobExperience + JobPlans +
 ReasonForApplication + PriorEntry
 cjpwr_data(immigration, f1, CaseID)
 #same in taxes dataset but without pre-specified formula
-cjpwr_data(taxes, chose_plan ~ taxrate1 + taxrate2 + taxrate3 +
+power_tax <- cjpwr_data(taxes, chose_plan ~ taxrate1 + taxrate2 + taxrate3 +
 taxrate4 + taxrate5 + taxrate6 + taxrev, ID, profile_no, contest_no)
 ## include interaction variable for a pair of features
 library(tidyverse)
@@ -41,5 +41,5 @@ f2 <- ChosenImmigrant ~ Gender + Education + LanguageSkills +
 CountryOfOrigin + Job + JobExperience + JobPlans +
 ReasonForApplication + PriorEntry + ints
 #then just run cjpwr_data with the new formula
-cjpwr_data(immigration, f2, CaseID)
+power_imm <- cjpwr_data(immigration, f2, CaseID)
 }

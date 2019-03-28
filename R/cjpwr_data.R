@@ -1,7 +1,7 @@
 #' @rdname cjpwr_data
 #' @title Simple Power Analysis and Sample Size Diagnostic for Conjoint Designs
 #' @description Johnson's rule-of-thumb calculation for determining power of conjoint designs.
-#' @param data A tidy, long-formate conjoint dataframe.
+#' @param data A tidy, long-format conjoint dataframe.
 #' @param formula A formula like those passed to cj/amce/mm functions in `cregg`. RHS variables are used to determine max feature levels.
 #' @param id A variable, within data, containing respondent IDs. Must be numeric.
 #' @details \code{cjpwr_data} finds and calculates n, t, a, and c from a tidy conjoint data input (with a formula and id, similar to other tidy conjoint analyses) and divides the product of n, t, and a by c, to give Johnson's rule-of-thumb estimation of conjoint design power. It returns a dataframe containing the inputs and result of this calculation, whether (yes/no) this exceeds the minimal minimum threshold (500) and ideal minimum threshold (1000), and the sample sizes (rounded up) necessary for minimum and ideal power thresholds. {cjpwr_data} uses features of tidyeval which mean variable names can be specified without quoting ("") and without referring back to the dataframe every time (via data$).
@@ -18,7 +18,7 @@
 #' ReasonForApplication + PriorEntry
 #' cjpwr_data(immigration, f1, CaseID)
 #' #same in taxes dataset but without pre-specified formula
-#' cjpwr_data(taxes, chose_plan ~ taxrate1 + taxrate2 + taxrate3 +
+#' power_tax <- cjpwr_data(taxes, chose_plan ~ taxrate1 + taxrate2 + taxrate3 +
 #' taxrate4 + taxrate5 + taxrate6 + taxrev, ID, profile_no, contest_no)
 #' ## include interaction variable for a pair of features
 #' library(tidyverse)
@@ -28,7 +28,7 @@
 #' CountryOfOrigin + Job + JobExperience + JobPlans +
 #' ReasonForApplication + PriorEntry + ints
 #' #then just run cjpwr_data with the new formula
-#' cjpwr_data(immigration, f2, CaseID)
+#' power_imm <- cjpwr_data(immigration, f2, CaseID)
 
 
 
@@ -116,8 +116,8 @@ cjpwr_data <- function(data, formula, id) {
              a = a,
              c = c,
              nta_c = design_rep,
-             minimum_sufficient = ifelse(design_rep >= 500, "yes", "no"),
-             ideal_sufficient = ifelse(design_rep >= 1000, "yes", "no"),
-             minimum_n = min_n,
+             min_met = ifelse(design_rep >= 500, "yes", "no"),
+             ideal_met = ifelse(design_rep >= 1000, "yes", "no"),
+             min_n = min_n,
              ideal_n = max_n)
 }
